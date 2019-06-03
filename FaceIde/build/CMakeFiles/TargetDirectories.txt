@@ -1,0 +1,3 @@
+/Users/isamaqueda/Desktop/Desktop - Isa’s MacBook Pro/TEC/sem6/modSoft/FaceIde/build/CMakeFiles/rebuild_cache.dir
+/Users/isamaqueda/Desktop/Desktop - Isa’s MacBook Pro/TEC/sem6/modSoft/FaceIde/build/CMakeFiles/edit_cache.dir
+/Users/isamaqueda/Desktop/Desktop - Isa’s MacBook Pro/TEC/sem6/modSoft/FaceIde/build/CMakeFiles/far.dir
