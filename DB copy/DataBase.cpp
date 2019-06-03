@@ -147,7 +147,6 @@ std::pair <cv::Mat,cv::Mat> DataBase::search(cv::Mat elementoaBuscar, int K){
         dists.at<float>(i,0) = (cv::norm(elementoaBuscar, getfeatureByID(PAIR1.first.at<int>(i,0)), cv::NORM_L2));
     }
      PAIR1.second = dists.clone();
-        //std::cout << distanciaEuclidiana << std::endl;
     return PAIR1; 
  }
 
@@ -188,14 +187,7 @@ bool DataBase::saveUserDataInAFile(PersonInfo bio){
     
     if(biographicalDB.is_open()){
         
-        biographicalDB<<id<<","<<bio.matricula<<","<<bio.name<<","<<bio.lastName<<","<<bio.age<<",";
-        /*
-		for(int i=0; i<points.size(); i++){
-            
-			 biographicalDB<<","<<points[i].x<<","<<points[i].y;
-
-        }
-		*/
+        biographicalDB<<id<<","<<bio.matricula<<","<<bio.name<<","<<bio.lastName<<","<<bio.age<<","<<"../DB/Img/"+std::to_string(id)+".jpg";
         biographicalDB<<"\n";
         biographicalDB.close();
 		updateDataBase();
@@ -295,33 +287,39 @@ std::vector<std::string> DataBase::indexData(std::string dataLine) {
 	return dataMatrix;
 }
 
-PersonInfo DataBase::String_To_Structure(std::string Data_As_String)
-	{
-		PersonInfo Data_Struct;
-		std::vector<std::string> Data_Vector_String=indexData(Data_As_String);
-		Data_Struct.id=Data_Vector_String[0];
-		Data_Struct.matricula=Data_Vector_String[1];
-		Data_Struct.name=Data_Vector_String[2];
-		Data_Struct.lastName=Data_Vector_String[3];
-        
-        //std::cout<< Data_Vector_String[0]<<std::endl;
-        //std::cout<< Data_Vector_String[1]<<std::endl;
-        //std::cout<< Data_Vector_String[2]<<std::endl;
-        //std::cout<< Data_Vector_String[3]<<std::endl;
-        //std::cout<< Data_Vector_String[4]<<std::endl;
-		Data_Struct.age=std::stoi(Data_Vector_String[4]);
 
+
+
+
+
+
+PersonInfo DataBase::String_To_Structure(std::string Data_As_String) {
+    PersonInfo Data_Struct;
+    std::vector<std::string> Data_Vector_String=indexData(Data_As_String);
+    Data_Struct.id=Data_Vector_String[0];
+    Data_Struct.matricula=Data_Vector_String[1];
+    Data_Struct.name=Data_Vector_String[2];
+    Data_Struct.lastName=Data_Vector_String[3];
+    Data_Struct.age=std::stoi(Data_Vector_String[4]);
+    Data_Struct.img = Data_Vector_String[5];
 		return Data_Struct;
-	}
-bool DataBase::DuplicatedMatricula(std::string mat){
+}
+
+
+
+
+
+
+
+
+bool DataBase::DuplicatedMatricula(std::string mat) {
     cv::Mat m = getfeatureByMatricula(mat);
        if(m.rows == 0 && m.cols ==0) {
            return false;
        }
        return true;
-    }
-int DataBase::ValidateData(PersonInfo bio)
-{
+}
+int DataBase::ValidateData(PersonInfo bio) {
     int result_case_3=0;
     if(!ValidateMatricula(bio.matricula))
         result_case_3+=INVALmatriculasMatRICULA;
@@ -334,29 +332,24 @@ int DataBase::ValidateData(PersonInfo bio)
 	
     return result_case_3;
 }
-bool DataBase::ValidName(std::string word)
-{
+bool DataBase::ValidName(std::string word) {
     bool verdict=1;
     
     std::string InvalidNameCharacters=" !\"#$%&()*+,./:;<=>?[\\]^_{|}~";
-    for(int H=0;H<word.size();H++)
-    {
-        if(isdigit(word[H])||InvalidNameCharacters.find(word[H])!=std::string::npos)
-        {
+    for(int H=0;H<word.size();H++) {
+        if(isdigit(word[H])||InvalidNameCharacters.find(word[H])!=std::string::npos) {
             verdict=0;
             break;
         }
     }
-        return verdict;
+    return verdict;
 }	
 
-bool DataBase::ValidateMatricula(std::string matricula)
-{
- const std::regex pattern_Matricula("(A|L)[0-9]{8}");
-   return std::regex_match(matricula, pattern_Matricula);
+bool DataBase::ValidateMatricula(std::string matricula) {
+    const std::regex pattern_Matricula("(A|L)[0-9]{8}");
+    return std::regex_match(matricula, pattern_Matricula);
 }
-void DataBase::BackUp()
-{
+void DataBase::BackUp() {
     std::ofstream backupFeat;
     backupFeat.open("backupFeat.txt");
     
@@ -364,8 +357,7 @@ void DataBase::BackUp()
     inputFeat.open(featuresFile);
     
     std::string ch;
-    while (!inputFeat.eof())
-    {
+    while (!inputFeat.eof()) {
         std::getline(inputFeat,ch);
         backupFeat<<ch;
     }
@@ -378,11 +370,9 @@ void DataBase::BackUp()
     inputFeat.open(PersonInfoFile);
     
     std::string ch1;
-    while (!inputPerson.eof())
-    {
+    while (!inputPerson.eof()) {
         std::getline(inputPerson,ch1);
         backupPerson<<ch1;
     }
     inputPerson.close();
-    
 }

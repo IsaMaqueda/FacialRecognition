@@ -1,2 +1,2 @@
-0,A01023616,Jose,Garcia,22
-1,A01023617,Isa,Isa,22
+0,A01023616,Jose,Garcia,22,../DB/Img/0.jpg
+1,A01023617,Isa,Isa,22,../DB/Img/1.jpg

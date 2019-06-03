@@ -12,8 +12,8 @@
 #include <opencv2/flann/flann_base.hpp>
 
 
-struct PersonInfo{
-    std::string id, matricula,name,lastName;
+struct PersonInfo {
+    std::string id, matricula,name,lastName,img;
     int age;
 };
 
@@ -23,7 +23,7 @@ class DataBase {
         cv::flann::Index *flann_index;
         int n;
         std::string PersonInfoFile,featuresFile,nFile;
-        std::fstream biographicalDB,biometricDB,N,featureDB;
+        std::fstream biographicalDB ,biometricDB,N,featureDB;
         std::vector<PersonInfo> biograData;
         inline bool existsFile (const std::string& name);
         bool load_N_File();
